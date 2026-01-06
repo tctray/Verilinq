@@ -1,0 +1,14 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Full permissions for Verilinq windows",
+  "windows": ["main", "intro"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-show",
+    "core:window:allow-close",
+    "core:window:allow-get-all-windows",
+    "core:webview:default",
+    "core:event:default"
+  ]
+}

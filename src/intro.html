@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background-color: #1b1b1b; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color:#ccc;
+      font-weight:bold;
+      font-family: sans-serif;
+    }
+    .logo { width: 150px; animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <img src="128x128.png" class="logo">
+  <p>Loading Verilinq...</p>
+  <p style="font-size:10px !important; color:#4bcaaf !important;">Developed By Taurrean Traylor</p>
+  <script>
+
+  // This tells the intro window to close itself and show the main window
+  // after 3 seconds, regardless of what index.html does.
+  setTimeout(async () => {
+    if (window.__TAURI__) {
+      const { WebviewWindow } = window.__TAURI__.webviewWindow;
+      const mainWin = await WebviewWindow.getByLabel('main');
+      
+      if (mainWin) {
+        await mainWin.show();
+        const currentWin = await WebviewWindow.getCurrent();
+        await currentWin.close();
+      }
+    }
+  }, 3000);
+</script>
+</body>
+</html>

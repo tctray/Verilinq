@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VeriLinq</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: url("dark_abstract.png") no-repeat center center fixed;
+      background-size: cover;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    .container {
+      width: 460px;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      background: #2d979b;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Status & History */
+    #status {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
+
+    #history-list {
+      margin-top: 16px;
+      text-align: left;
+      max-height: 260px;
+      overflow: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+    }
+
+    .status-icon {
+      font-size: 1.1rem;
+      min-width: 24px;
+    }
+
+    .url {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pill {
+      min-width: 54px;
+      text-align: right;
+      font-weight: 700;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <p><img src="128x128.png" alt="VeriLinq Logo" /></p>
+
+    <input type="text" id="url-input" placeholder="https://example.com" />
+    <button id="check-btn" type="button">Check Links</button>
+
+    <div id="status"></div>
+    <div id="history-list"></div>
+  </div>
+
+  <script>
+    const statusEl = document.getElementById("status");
+    const historyList = document.getElementById("history-list");
+    const inputEl = document.getElementById("url-input");
+    const btnEl = document.getElementById("check-btn");
+
+    function getInvoke() {
+      return window.__TAURI__?.core?.invoke ?? null;
+    }
+
+    function normalizeUrl(raw) {
+      const trimmed = raw.trim();
+      if (!trimmed) return "";
+      return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    }
+
+    function isGoodStatus(code) {
+      return code >= 200 && code < 400;
+    }
+
+    function renderSummary(total, broken) {
+      const good = total - broken;
+      statusEl.innerHTML = `
+        <div style="font-weight:bold; margin-bottom:10px;">
+          Found ${total} links.
+          <span style="color:#4ade80">✅ ${good} Good</span> |
+          <span style="color:#f87171">❌ ${broken} Broken</span>
+        </div>
+      `;
+    }
+
+    function renderResults(results) {
+      historyList.innerHTML = "";
+      results.forEach((item) => {
+        const code = Number(item.status) || 0;
+        const good = isGoodStatus(code);
+
+        const row = document.createElement("div");
+        row.className = "history-item";
+
+        row.innerHTML = `
+          <span class="status-icon">${good ? "✅" : "❌"}</span>
+          <span class="url" style="color:${good ? "inherit" : "#f87171"}">${item.url}</span>
+          <span class="pill" style="background-color:${good ? "#4ade80" : "#f87171"}">
+            ${code === 0 ? "FAIL" : code}
+          </span>
+        `;
+
+        historyList.appendChild(row);
+      });
+    }
+
+    btnEl.addEventListener("click", async () => {
+      const invoke = getInvoke();
+      if (!invoke) {
+        statusEl.textContent =
+          "❌ Tauri invoke() not found. Run inside the Tauri app (cargo tauri dev), not Chrome.";
+        historyList.innerHTML = "";
+        return;
+      }
+
+      const url = normalizeUrl(inputEl.value);
+      if (!url) return;
+
+      statusEl.textContent = "🔍 Crawling page for links...";
+      historyList.innerHTML = "";
+
+      try {
+        const results = await invoke("check_page_links", { url });
+
+        if (!Array.isArray(results) || results.length === 0) {
+          statusEl.textContent = "No links found (or backend returned an empty list).";
+          return;
+        }
+
+        const broken = results.filter((r) => !isGoodStatus(Number(r.status) || 0)).length;
+        renderSummary(results.length, broken);
+        renderResults(results);
+      } catch (err) {
+        statusEl.textContent = "❌ Error calling backend.";
+        historyList.innerHTML = `<div style="color:#f87171">${String(err)}</div>`;
+      }
+    });
+  </script>
+</body>
+</html>
