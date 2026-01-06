@@ -18,4 +18,4 @@ Content-heavy websites naturally accumulate broken links over time due to redesi
 - HTML, CSS, JavaScript (frontend UI)
 
 ## Status
-VeriLinq is an actively evolving project. Planned enhancements include scan history, profiles, and reporting.
+VeriLinq is an actively evolving project.
