@@ -645,7 +645,7 @@ Clear Reporting: The scan identified dozens of broken links across navigation an
     </section>
 
     <section>
-        <img src="src/assets/verilinq3.png" width="100%">
+        <img src="C:\Users\tctra\OneDrive\Desktop\v splash page\verilinq3.png" width="100%">
     </section>
 
     <section class="info-section">
