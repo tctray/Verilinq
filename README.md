@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="./assets/128x128.png" alt="VeriLinq Logo" width="200">
+  <img src="src/assets/verilinq3.png" alt="VeriLinq Logo" width="100">
 </p>
-# VeriLinq
 
-VeriLinq is a fast, private, local-first desktop application that scans websites for broken links in seconds—helping keep content reliable and user-ready.
+## VeriLinq
+VeriLinq is a fast, private, local-first desktop application that scans websites for broken links in seconds, helping keep content reliable and user-ready.
 
 <p align="center">
-  <img src="./assets/desktop.png" alt="VeriLinq Logo" width="200">
+  <img src="src/assets/desktop.png" alt="VeriLinq Logo" width="50%">
 </p>
 
 ## Why VeriLinq
