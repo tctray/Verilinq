@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verilinq</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+    --bg-color: #0b0e14;
+    --primary-blue: #3ebab9;
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --card-bg: #1a1d23;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+p{
+    font-size:1.5em;
+}
+/* Navbar */
+.navbar {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    max-width: 900px;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.hero p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.cta-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 60px;
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #416658;
+    border: 1px solid #444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Dashboard Preview Box */
+.dashboard-preview {
+    width: 100%;
+    max-width: 100%;
+    height: 500px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid #333;
+    box-shadow: 0px 0px 100px #3ebab9; /* Subtle Blue Glow */
+    display: flex;
+    overflow: hidden;
+}
+
+.mock-sidebar {
+    width: 20%;
+    background: #15181e;
+    border-right: 1px solid #333;
+}
+
+.mock-content {
+    flex-grow: 1;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.mock-card {
+    background: #252930;
+    border-radius: 10px;
+}
+
+.card-large { grid-column: span 2; height: 150px; }
+.card-small { height: 150px; }
+
+
+
+.type--A {
+  --line_color: #555555;
+  --back_color: #ffecf6;
+}
+.type--B {
+  --line_color: #1b1919;
+  --back_color: #e9ecff;
+}
+.type--C {
+  --line_color: #3ebab9;
+  --back_color: #defffa;
+}
+.button {
+  position: relative;
+  z-index: 0;
+  width: 240px;
+  height: 56px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--line_color);
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+.button__text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.button::before,
+.button::after,
+.button__text::before,
+.button__text::after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line_color);
+  transition: all 0.5s ease;
+}
+.button::before {
+  top: 0;
+  left: 54px;
+  width: calc(100% - 56px * 2 - 16px);
+}
+.button::after {
+  top: 0;
+  right: 54px;
+  width: 8px;
+}
+.button__text::before {
+  bottom: 0;
+  right: 54px;
+  width: calc(100% - 56px * 2 - 16px);
+}
+.button__text::after {
+  bottom: 0;
+  left: 54px;
+  width: 8px;
+}
+.button__line {
+  position: absolute;
+  top: 0;
+  width: 56px;
+  height: 100%;
+  overflow: hidden;
+}
+.button__line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 150%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 300px;
+  border: solid 3px var(--line_color);
+}
+.button__line:nth-child(1),
+.button__line:nth-child(1)::before {
+  left: 0;
+}
+.button__line:nth-child(2),
+.button__line:nth-child(2)::before {
+  right: 0;
+}
+.button:hover {
+  letter-spacing: 6px;
+}
+.button:hover::before,
+.button:hover .button__text::before {
+  width: 8px;
+}
+.button:hover::after,
+.button:hover .button__text::after {
+  width: calc(100% - 56px * 2 - 16px);
+}
+.button__drow1,
+.button__drow2 {
+  position: absolute;
+  z-index: -1;
+  border-radius: 16px;
+  transform-origin: 16px 16px;
+}
+.button__drow1 {
+  top: -16px;
+  left: 40px;
+  width: 32px;
+  height: 0;
+  transform: rotate(30deg);
+}
+.button__drow2 {
+  top: 44px;
+  left: 77px;
+  width: 32px;
+  height: 0;
+  transform: rotate(-127deg);
+}
+.button__drow1::before,
+.button__drow1::after,
+.button__drow2::before,
+.button__drow2::after {
+  content: "";
+  position: absolute;
+}
+.button__drow1::before {
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 32px;
+  border-radius: 16px;
+  transform-origin: 16px 16px;
+  transform: rotate(-60deg);
+}
+.button__drow1::after {
+  top: -10px;
+  left: 45px;
+  width: 0;
+  height: 32px;
+  border-radius: 16px;
+  transform-origin: 16px 16px;
+  transform: rotate(69deg);
+}
+.button__drow2::before {
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 32px;
+  border-radius: 16px;
+  transform-origin: 16px 16px;
+  transform: rotate(-146deg);
+}
+.button__drow2::after {
+  bottom: 26px;
+  left: -40px;
+  width: 0;
+  height: 32px;
+  border-radius: 16px;
+  transform-origin: 16px 16px;
+  transform: rotate(-262deg);
+}
+.button__drow1,
+.button__drow1::before,
+.button__drow1::after,
+.button__drow2,
+.button__drow2::before,
+.button__drow2::after {
+  background: var(--back_color);
+}
+.button:hover .button__drow1 {
+  animation: drow1 ease-in 0.06s;
+  animation-fill-mode: forwards;
+}
+.button:hover .button__drow1::before {
+  animation: drow2 linear 0.08s 0.06s;
+  animation-fill-mode: forwards;
+}
+.button:hover .button__drow1::after {
+  animation: drow3 linear 0.03s 0.14s;
+  animation-fill-mode: forwards;
+}
+.button:hover .button__drow2 {
+  animation: drow4 linear 0.06s 0.2s;
+  animation-fill-mode: forwards;
+}
+.button:hover .button__drow2::before {
+  animation: drow3 linear 0.03s 0.26s;
+  animation-fill-mode: forwards;
+}
+.button:hover .button__drow2::after {
+  animation: drow5 linear 0.06s 0.32s;
+  animation-fill-mode: forwards;
+}
+@keyframes drow1 {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100px;
+  }
+}
+@keyframes drow2 {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0;
+  }
+  11% {
+    opacity: 1;
+  }
+  100% {
+    width: 120px;
+  }
+}
+@keyframes drow3 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 80px;
+  }
+}
+@keyframes drow4 {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 120px;
+  }
+}
+@keyframes drow5 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 124px;
+  }
+}
+
+.container {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.button:not(:last-child) {
+  margin-bottom: 64px;
+}
+
+.btn-outline{
+    background-color: #3ebab9;
+}
+
+footer {
+            margin-top: 80px;
+            padding-bottom: 40px;
+            color: var(--text-muted);
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-preview {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Color accents for the headline */
+.text-break {
+    color:var(--primary-blue) /* A soft coral/red to signify a 'break' */
+}
+
+.text-flow {
+    color: var(--primary-blue); /* Your brand teal to signify the 'fix' */
+}
+
+.text-break, .text-flow {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+footer a,footer a:visited,footer a:hover, 
+footer a:active {
+    color: var(--line_color) !important;
+    text-decoration:none !important;
+}
+
+
+.case-study {
+    padding: 80px 20px;
+    text-align: center;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.case-study h3 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary-blue);
+}
+
+.stat-card h4 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #fff;
+}
+
+.stat-card p {
+    color: var(--text-muted);
+    margin-top: 10px;
+}
+
+.how-it-works {
+    padding: 100px 20px;
+    max-width: 1100px;
+    width: 100%;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 60px;
+    letter-spacing: -1px;
+}
+
+.steps-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 20px;
+    flex: 1;
+    min-width: 280px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.step:hover {
+    background: rgba(62, 186, 185, 0.05);
+    border-color: var(--primary-blue);
+    transform: translateY(-10px);
+}
+
+.step-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    opacity: 0.3;
+    margin-bottom: 20px;
+}
+
+.step h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.step p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Use Case Section */
+.info-section {
+    padding: 80px 20px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.use-case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.use-case {
+    text-align: left;
+    padding: 20px;
+}
+
+.use-case .icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.use-case h4 {
+    color: var(--primary-blue);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+/* Mission & Role Section */
+.mission-section {
+    padding: 100px 20px;
+    background: linear-gradient(180deg, var(--bg-color) 0%, #15181e 100%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.mission-content {
+    max-width: 800px;
+    text-align: center;
+}
+
+.mission-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.mission-content p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.role-box {
+    margin-top: 50px;
+    padding: 30px;
+    background: rgba(62, 186, 185, 0.05);
+    border-left: 4px solid var(--primary-blue);
+    text-align: left;
+    border-radius: 0 15px 15px 0;
+}
+
+.role-box h4 {
+    margin-top: 0;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><h1>Verilinq</h1></div>
+        <div class="nav-links">
+
+        <a href="https://github.com/tctray/Verilinq"><button class="btn btn-primary">Download</button></a>
+        </div>
+    </nav>
+
+    <section class="hero">
+<h1>Find the <span class="text-break">Breaks</span>. Fix the <span class="text-flow">Flow</span>.</h1>
+<p>VeriLinq is a fast, private, local-first desktop application that scans your website for broken links in seconds, helping teams maintain reliable, user-ready content.</p>
+        
+<div class="container">
+  <a href="https://github.com/tctray/Verilinq" class="button type--C" Github>
+    <div class="button__line"></div>
+    <div class="button__line"></div>
+    <span class="button__text">DOWNLOAD</span>
+    <div class="button__drow1"></div>
+    <div class="button__drow2"></div>
+  </a>
+</div>
+
+        <div class="dashboard-preview">
+        <img src="src/assets/desktop.png" width="100%">
+        </div>
+    </section>
+
+    <section class="case-study">
+        <h1>Problem:</h1>
+                <p style="text-align:justify;color:#ccc;">
+Manual link checking was taking the intern over 5 hours a week, and broken links were still being missed in footers and long-form content sections.        <br>
+        <h1>Solution:</h1>
+        <p style="text-align:justify;color:#ccc;">
+Targeted Rapid Scanning: VeriLinq scanned critical site pages in seconds, automatically detecting broken internal and external links that were easy to overlook manually.
+Clear Reporting: The scan identified dozens of broken links across navigation and content areas, allowing developers to fix every issue in a single afternoon.   </p>
+    </section>
+
+    <section>
+        <img src="C:\Users\tctra\OneDrive\Desktop\v splash page\verilinq3.png" width="100%">
+    </section>
+
+    <section class="info-section">
+    <h2 class="section-title">Who is Verilinq For?</h2>
+    <div class="use-case-grid">
+        <div class="use-case">
+            <span class="icon">🚀</span>
+            <h4>SEO Specialists</h4>
+            <p>Help Prevent "404 Not Found" errors from impacting your search engine rankings and domain authority.</p>
+        </div>
+        <div class="use-case">
+            <span class="icon">🛍️</span>
+            <h4>E-commerce Owners</h4>
+            <p>Ensure product links dont lead to dead ends that disrupt the path to purchase.</p>
+        </div>
+        <div class="use-case">
+            <span class="icon">🛠️</span>
+            <h4>Web Developers</h4>
+            <p>Automate Link QA before to maintain link integrity across complex directories.</p>
+        </div>
+    </div>
+</section>
+
+<section class="mission-section">
+    <div class="mission-content">
+        <h2>The Core Mission</h2>
+        <p>The web is built on connections. When a link breaks, the user’s trust breaks with it. Verilinq was created to eliminate the "dead ends" of the internet, providing a lightweight, lightning-fast solution for digital reliability.</p>
+        
+        <div class="role-box">
+            <h4>My Role</h4>
+            <p>As the Lead Developer and Designer, I engineered Verilinq to prioritize speed and local privacy. I handled everything from the core scanning logic to the UI/UX design, ensuring that professional-grade link auditing is accessible to everyone.</p>
+        </div>
+    </div>
+</section>
+
+    <section class="how-it-works">
+    <h2 class="section-title">Three Steps to Verify</h2>
+    <div class="steps-container">
+        <div class="step">
+            <div class="step-number">01</div>
+            <h3>Input URL</h3>
+            <p>Paste your website address into the VeriLinq console to begin the deep-scan process.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">02</div>
+            <h3>Automated Audit</h3>
+            <p>Our engine pings every internal and external link to verify server response codes in real-time.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">03</div>
+            <h3>Fix the Flow</h3>
+            <p>Export a detailed report of every "Break" and resolve them to restore your user experience.</p>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <img src="src/assets/verilinq3.png" width="100%">
+</section>
+
+
+    <footer>
+        <a href="http://www.taurreantraylor.com">Taurrean Traylor</a>
+    </footer>
+</body>
+</html>
